@@ -1,0 +1,153 @@
+
+                <!DOCTYPE html>
+                <html lang="uk">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>HTTPS</title>
+                        <link rel="stylesheet" href=..\..\assets\style.css>
+                        <link rel="icon" href=..\..\assets\icons\favicon.ico type="image/x-icon">
+                    </head>
+                    <body>
+                        
+                        <div class="main">
+                            <div class='menu'><ul class='sub-list'>
+<li class="file"><a href="../../index.html">HOME</a></li>
+<li class='folder' data-folderID='2'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>Вразливості веб застосунку</strong>
+<ul class='sub-list'>
+<li class='folder' data-folderID='3'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>API Endpoints</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../API Endpoints/API.html">API</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='4'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>CSRF</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../CSRF/CSRF.html">CSRF</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='5'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>File Upload</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../File Upload/Завантаження аватарки.html">Завантаження аватарки</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='6'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>Login форма</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../Login форма/User enumeration.html">User enumeration</a></li>
+<li class="file"><a href="../Login форма/Словниковий перебір та брут-форсинг паролів.html">Словниковий перебір та брут-форсинг паролів</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='7'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>Man-in-the-middle</strong>
+<ul class='sub-list'>
+<li class="file"><a href="HTTPS.html">HTTPS</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='8'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>Overexposed JSON</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../Overexposed JSON/Надмірне розкриття даних.html">Надмірне розкриття даних</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='9'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>SQLInjection</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../SQLInjection/Injection.html">Injection</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='10'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>XSS</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../XSS/Stored XSS.html">Stored XSS</a></li>
+</ul>
+</li>
+<li class='folder' data-folderID='11'><strong class='folder-name'><img src='..\..\assets\icons\folder.png'>Конфігурація</strong>
+<ul class='sub-list'>
+<li class="file"><a href="../Конфігурація/Fail2Ban.html">Fail2Ban</a></li>
+<li class="file"><a href="../Конфігурація/Firewall.html">Firewall</a></li>
+<li class="file"><a href="../Конфігурація/HTTPS.html">HTTPS</a></li>
+<li class="file"><a href="../Конфігурація/Internal Network.html">Internal Network</a></li>
+<li class="file"><a href="../Конфігурація/PostgreSQL.html">PostgreSQL</a></li>
+<li class="file"><a href="../Конфігурація/SSH.html">SSH</a></li>
+</ul>
+</li>
+<li class="file"><a href="../Налаштування користувача.html">Налаштування користувача</a></li>
+</ul>
+</li>
+</ul>
+</div>
+                            <div class="content">
+                            <h1 class="topic-name">HTTPS</h2>
+                            <hr />
+<p>HTTPS - це захищена версія HTTP, яка буде передавати дані між браузером та веб сайтом у зашифрованому вигляді. Він використовує TLS та шифрує з'єднання завдяки асиметричному шифруванню, яке використовує приватний та публічний ключи. Публічний ключ буде надсилатися веб сервером клієнтові, як тільки той спробує під'єднатися до веб сайту.</p>
+<p><strong>Публічний ключ</strong> (знаходиться на стороні клієна) - шифрує дані перед відправкою на сервер
+<strong>Приватний ключ</strong> (знаходиться на сервері) - розшифровує отримані дані від клієнта</p>
+<hr />
+<p>Для встановлення HTTPS з'єднання веб сайт повинен мати TLS/SSL сертифікат, який підтверджує, що конкретний провайдер є тим, за кого себе видає. Такі сертифікати видаються різними хостингами за деяку плату, а деякі видають навіть безкоштовно на власних умовах. </p>
+<p>Але існують і так звані самопідписані сертифікати, які створюються власниками веб сайту. Сайти, які використовують такі сертифікати, не будуть викликати довіру у браузерів, тому відповідно будуть помічатися як небезпечні. Для демонстрації мій застосунок використовуватиме саме такий сертифікат, його можна згенерувати за допомогою <code>openssl</code>:</p>
+<pre><code class="language-bash">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -nodes
+</code></pre>
+<blockquote>
+<p>Згенерований вище сертифікат житиме цілий рік. Також можна встановити додатковий захист приватного ключа, встановивши кодову фразу, але у моєму випадку він не захищений (опція <code>-nodes</code>)</p>
+</blockquote>
+<hr />
+<p>Перед тим, як встановити захищений протокол на веб сайт, я продемонструю перехоплення запиту на логін через HTTP протокол. Для TLS/SSL з'єднання характерне рукостискання на початку комунікації, для встановлення захищеного з'єднання, але як видно на зображенні нижче - рукостискання немає (окрім загального для початку комунікації), відповідно, і з'єднання не захищене. А POST запит видно в початковому вигляді в усій красі та доступності:</p>
+<div class="image-div"><img src="..\..\images\Pasted image 20260227174158.png" alt="Pasted image 20260227174158.png" /></div>
+
+<p>Якщо заглянути в деталі саме цього POST запиту, то у відділі з даними можна побачити логін та пароль, які я вводив для надсилання логін запиту (senku:StRongPss):</p>
+<div class="image-div"><img src="..\..\images\Pasted image 20260227174220.png" alt="Pasted image 20260227174220.png" /></div>
+
+<hr />
+<p>Для того, аби переключитися на захищене з'єднання, треба надати моєму застосунку згенеровані мною сертифікати:</p>
+<blockquote>
+<p>Для Gunicorn</p>
+</blockquote>
+<pre><code class="language-bash">--certfile=/var/www/demo-web-app/app/cert/cert.pem \
+--keyfile=/var/www/demo-web-app/app/cert/key.pem \
+</code></pre>
+<p>Але мій застосунок буде працювати на локальному порту, в той час як nginx буде слугувати як proxy та пересилати всі запити на цей локальний порт. Тому згенеровані ключ та сертифікат треба перемістити в директорію <code>/etc/nginx/ssl</code>. Доступ до них повинен мати лише root користувач. </p>
+<p>В конфігураційному файлі мого застосунку для nginx (<code>/etc/nginx/sites-available/flaskapp.conf</code>) варто додати наступний вміст:</p>
+<pre><code class="language-bash">server {
+    listen 443 ssl;
+
+    ssl_certificate     /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+    }
+}
+
+server {
+        listen 80 default_server;
+        return 301 https://$host$request_uri;
+}
+</code></pre>
+<blockquote>
+<p>За підсумком - це конфіг, в якому вказано порт для прослуховування, в моєму випадку - це 443 порт, який є стандартним для HTTPS протоколу. Далі надається сертифік, який був згенерований мною ж (само підписаний), встановлення протоколу та на кінець - встановлення порту, на який буде пересилатися весь вхідний трафік. </p>
+</blockquote>
+<p>Другий блок відповідає за перенаправлення з 80 порту на 443. Для коректної роботи варто прибрати стандартний конфіг файл від nginx, де вже вказане прослуховування на 80 порт, оскільки у мене немає доменного імені, тому і розпізнавати різні з'єднання не можливо:</p>
+<pre><code class="language-bash">sudo unlink /etc/nginx/sites-enabled/default
+</code></pre>
+<hr />
+<p>Після збереження конфігурації можна перевірити її на валідність наступною командою:</p>
+<pre><code class="language-bash">sudo nginx -t
+</code></pre>
+<p>Для завершення треба залінкувати створений конфіг у визначену директорію:</p>
+<pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/flaskapp.conf /etc/nginx/sites-enabled/
+</code></pre>
+<p>Після перезапуску все має почати працювати:</p>
+<pre><code class="language-bash">sudo systemctl restart nginx
+</code></pre>
+<hr />
+<p>Тепер якщо подивитися на трафік під час надсилання запиту на логін, то можна побачити, що передані дані зашифровані завдяки TLS/SSL з'єднанню і також видно, як сервер та клієнт встановлюють захищене з'єднання: Клієнт надсилає пакет "Client Hello" а сервер відповідає "Server Hello", і як тільки захищене з'єднання встановлене - відбувається передача даних: </p>
+<div class="image-div"><img src="..\..\images\Pasted image 20260227184408.png" alt="Pasted image 20260227184408.png" /></div>
+
+<div class="image-div"><img src="..\..\images\Pasted image 20260227184617.png" alt="Pasted image 20260227184617.png" /></div>
+<blockquote>
+<p>Очікувані зашифровані дані</p>
+</blockquote>
+<hr />
+                            </div>
+                        </div>
+                    </body>
+                    <script src=..\..\script.js></script>
+                </html>
+                
